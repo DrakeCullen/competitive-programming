@@ -1,0 +1,8 @@
+Kattis Runtime Approximations
+Runtime:	Max input for 1 second:
+n		1E9 (1 trillion)
+n*logn		< 1E8 (100 million)
+n^2		~31,622
+n^3		1,000
+2^n		20
+n!		12

@@ -4,5 +4,5 @@ n		1E9 (1 trillion)
 n*logn		< 1E8 (100 million)
 n^2		~31,622
 n^3		1,000
-2^n		20
+2^n		29
 n!		12

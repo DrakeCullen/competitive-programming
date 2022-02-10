@@ -1,6 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory '/home/drake/projects/competitive-programming'
-make: Leaving directory '/home/drake/projects/competitive-programming'
- 
-make: *** No targets specified and no makefile found.  Stop.
- 

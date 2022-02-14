@@ -1,3 +1,4 @@
+// SSSP but handles negatives. Also detects negatives. Slower than dijkstras.
 #include <bits/stdc++.h>
 using namespace std;
 

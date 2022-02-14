@@ -1,3 +1,4 @@
+// Calculates eulerian paths
 #include <bits/stdc++.h>
 using namespace std;
 

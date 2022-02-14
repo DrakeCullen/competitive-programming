@@ -1,3 +1,4 @@
+// Fastest SSSP but can't handle negatives.
 #include <bits/stdc++.h>
 using namespace std;
 

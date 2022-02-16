@@ -28,5 +28,9 @@ int cntSetBits(int n) {
 int main() {
   ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
   cout<<cntSetBits(11);
+     // Compute the biggest power of 2 that is a divisor of x. Example: f(12) = 4
+    // 1 << __builtin_ctz(x)
+    // Compute the smallest power of 2 that is not smaller than x. Example: f(12) = 16
+    // 1 << (32 - __builtin_clz (x - 1)) 
   return 0;
 }

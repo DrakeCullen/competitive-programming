@@ -1,66 +1,58 @@
 #include <bits/stdc++.h>
-
 using namespace std;
-#define FOR(i, j, k, in) for (int i=j ; i<k ; i+=in)
-#define RFOR(i, j, k, in) for (int i=j ; i>=k ; i-=in)
-#define REP(i, j) FOR(i, 0, j, 1)
-#define RREP(i, j) RFOR(i, j, 0, 1)
-#define all(cont) cont.begin(), cont.end()
-#define rall(cont) cont.end(), cont.begin()
-#define FOREACH(it, l) for (auto it = l.begin(); it != l.end(); it++)
-#define IN(A, B, C) assert( B <= A && A <= C)
-#define MP make_pair
-#define PB push_back
-#define INF (int)1e9
-#define LLINF 4e18;
-#define EPS 1e-9
-#define PI 3.1415926535897932384626433832795
-#define MOD 1000000007
-#define F first
-#define S second
-const double pi=acos(-1.0);
-typedef pair<int, int> pii;
-typedef pair<string, int> psi;
+
 typedef vector<int> vi;
-typedef vector<string> vs;
-typedef vector<pii> vii;
-typedef vector<pair<string,int>> vsi;
-typedef vector<vi> vvi;
-typedef map<int,int> mpii;
-typedef map<int,bool> mpib;
-typedef map<int,list<pii>> mpili;
-typedef set<int> seti;
-typedef multiset<int> mseti;
-typedef unordered_set<int> usi;
-typedef priority_queue<int> pqi;
-typedef priority_queue<int,vi,greater<int>> rpqi;
-typedef stack<int> stki;
-typedef deque<int> dqi;
-typedef queue<int> qi;
-typedef long int int32;
-typedef unsigned long int uint32;
-typedef long long int int64;
-typedef unsigned long long int  uint64;
 
+class SparseTable {                              // OOP style
+private:
+  vi A, P2, L2;
+  vector<vi> SpT;                                // the Sparse Table
+public:
+  SparseTable() {}                               // default constructor
 
-int main()
-{
-    int n, res=0;
-	cin>>n;
-	int arr[n], maxi[n], mini[n];
-	REP(i,n) cin >> arr[i];
-	
-	maxi[0] = -INF;
-	FOR(i,1,n,1) maxi[i] = max(maxi[i-1], arr[i-1]);
+  SparseTable(vi &initialA) {                    // pre-processing routine
+    A = initialA;
+    int n = (int)A.size();
+    int L2_n = (int)log2(n)+1;
+    P2.assign(L2_n, 0);
+    L2.assign(1<<L2_n, 0);
+    for (int i = 0; i <= L2_n; ++i) {
+      P2[i] = (1<<i);                            // to speed up 2^i
+      L2[(1<<i)] = i;                            // to speed up log_2(i)
+    }
+    for (int i = 2; i < P2[L2_n]; ++i)
+      if (L2[i] == 0)
+        L2[i] = L2[i-1];                         // to fill in the blanks
 
+    // the initialization phase
+    SpT = vector<vi>(L2[n]+1, vi(n));
+    for (int j = 0; j < n; ++j)
+      SpT[0][j] = j;                             // RMQ of sub array [j..j]
 
-	mini[n-1] = INF;
-	for (int i = n - 2; i >= 0; i--) mini[i] = min(mini[i+1], arr[i+1]);
+    // the two nested loops below have overall time complexity = O(n log n)
+    for (int i = 1; P2[i] <= n; ++i)             // for all i s.t. 2^i <= n
+      for (int j = 0; j+P2[i]-1 < n; ++j) {      // for all valid j
+        int x = SpT[i-1][j];                     // [j..j+2^(i-1)-1]
+        int y = SpT[i-1][j+P2[i-1]];             // [j+2^(i-1)..j+2^i-1]
+        SpT[i][j] = A[x] <= A[y] ? x : y;
+      }
+  }
 
+  int RMQ(int i, int j) {
+    int k = L2[j-i+1];                           // 2^k <= (j-i+1)
+    int x = SpT[k][i];                           // covers [i..i+2^k-1]
+    int y = SpT[k][j-P2[k]+1];                   // covers [j-2^k+1..j]
+    return A[x] <= A[y] ? x : y;
+  }
+};
 
-	REP(i,n) 
-		if (maxi[i] < arr[i] && arr[i] < mini[i]) 
-			res++;
-	cout<<res<<endl;
-    return 0;
+int main() {
+  // same example as in Chapter 2: Segment Tree
+  vi A = {18, 17, 13, 19, 15, 11, 20};
+  SparseTable SpT(A);
+  int n = (int)A.size();
+  for (int i = 0; i < n; ++i)
+    for (int j = i; j < n; ++j)
+      printf("RMQ(%d, %d) = %d\n", i, j, SpT.RMQ(i, j));
+  return 0;
 }

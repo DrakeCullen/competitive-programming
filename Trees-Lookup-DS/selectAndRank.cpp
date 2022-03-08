@@ -3,8 +3,12 @@ using namespace std;
 
 #include <bits/extc++.h>                         // pbds
 using namespace __gnu_pbds;
+typedef long long ll;
 typedef tree<int, null_type, less<int>, rb_tree_tag,
              tree_order_statistics_node_update> ost;
+// Allow duplicate values
+typedef tree<ll, null_type, less_equal<ll>, 
+rb_tree_tag, tree_order_statistics_node_update> ost;
 
 int main() {
   int n = 9;

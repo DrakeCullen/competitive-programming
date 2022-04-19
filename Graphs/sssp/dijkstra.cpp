@@ -32,25 +32,6 @@ int main() {
 
   vi dist(V, INF); dist[s] = 0;                  // INF = 1e9 here
 
-  // Original Dijkstra's algorithm
-  /*
-  set<ii> pq;                                    // balanced BST version
-  for (int u = 0; u < V; ++u)                    // dist[u] = INF
-    pq.insert({dist[u], u});                     // but dist[s] = 0
-
-  // sort the pairs by non-decreasing distance from s
-  while (!pq.empty()) {                          // main loop
-    auto [d, u] = *pq.begin();                   // shortest unvisited u
-    pq.erase(pq.begin());
-    for (auto &[v, w] : AL[u]) {                 // all edges from u
-      if (dist[u]+w >= dist[v]) continue;        // not improving, skip
-      pq.erase(pq.find({dist[v], v}));           // erase old pair
-      dist[v] = dist[u]+w;                       // relax operation
-      pq.insert({dist[v], v});                   // enqueue better pair
-    }
-  }
-  */
-
   // (Modified) Dijkstra's algorithm
   priority_queue<ii, vector<ii>, greater<ii>> pq; pq.push({0, s});
 

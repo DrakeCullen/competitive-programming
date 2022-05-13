@@ -4,7 +4,7 @@ using namespace std;
 typedef vector<int> vi;
 
 int n;
-vi A;
+vector<double> A;
 
 void print_array(const char *s, vi &L, int n) {
   for (int i = 0; i < n; ++i) {
@@ -30,9 +30,10 @@ int LIS(int i) {                                 // O(n^2) overall
   int &ans = memo[i];
   if (ans != -1) return ans;                     // was computed before
   ans = 1;                                       // LIS can start anywhere
-  for (int j = 0; j < i; ++j)                    // O(n) here
-    if (A[j] < A[i])                             // increasing condition
-      ans = max(ans, LIS(j)+1);                  // pick the max
+  for (int j = 0; j < i; ++j)   {   
+    if (int(A[j]/A[i]) % 2 == 0)                             // increasing condition
+      ans = max(ans, LIS(j)+1);  
+  }                // pick the max
   return ans;
 }
 
@@ -47,7 +48,7 @@ int main() {
     A[i] = rand()%101-50;                        // [-50..50]
 
   n = 12;
-  vi sample({-7, 10, 9, 2, 3, 8, 8, 1, 2, 3, 4, 99});
+  vector<double> sample({-7, 10, 9, 2, 3, 8, 8, 1, 2, 3, 4, 99});
   A = sample;
 
   printf("n = %d:", n);

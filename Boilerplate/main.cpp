@@ -60,5 +60,12 @@ typedef unsigned long long int  uint64;
 
 int main() {
   ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+  ll cnt=0,n; vector<ll> v; cin>>n;
+  for (int i=1; i<=n; i*=2) {
+   cnt++; v.PB(i);
+  }
+  cout<<cnt<<endl;
+  for(auto e:v) cout<<e<<' ';
   return 0;
 }
+
